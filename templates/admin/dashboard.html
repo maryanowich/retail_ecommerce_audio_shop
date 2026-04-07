@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="margin-bottom:30px; display:flex; flex-direction:column; gap:16px;">
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1 style="margin:0; font-size:28px; font-weight:600;">
+            Administracija proizvoda
+        </h1>
+    </div>
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/admin/add" class="btn">➕ Dodaj proizvod</a>
+        <a href="/admin/import" class="btn">📥 Uvoz</a>
+        <a href="/admin/export" class="btn">📤 Izvoz</a>
+        <a href="/admin/template" class="btn">📄 Predložak</a>
+    </div>
+
+</div>
+
+<div class="grid">
+
+{% for p in products %}
+    <div class="card">
+
+        <h3 style="margin-bottom:4px;">{{ p.name }}</h3>
+        <div class="text-muted" style="margin-bottom:8px;">
+            Šifra: {{ p.sku }} • {{ p.brand }} • {{ p.category }}
+        </div>
+
+        <div style="margin:10px 0;">
+        {% if p.sale_price %}
+            <div style="font-size:18px; font-weight:600; color:#f87171;">
+                {{ p.sale_price }} €
+                <span style="text-decoration: line-through; color:#9ca3af; font-size:13px; margin-left:6px;">
+                    {{ p.mpc }} €
+                </span>
+            </div>
+        {% else %}
+            <div style="font-size:18px; font-weight:600;">
+                {{ p.mpc }} €
+            </div>
+        {% endif %}
+        </div>
+
+        <div style="margin-bottom:12px;">
+            {% if p.stock > 0 %}
+                <span class="badge badge-green">● Na zalihi ({{ p.stock }})</span>
+            {% else %}
+                <span class="badge badge-red">● Nema na zalihi</span>
+            {% endif %}
+        </div>
+
+        {% if p.image %}
+            <img src="{{ url_for('static', filename='images/' + p.image) }}" width="100%">
+        {% endif %}
+
+        <div style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.05); padding-top:10px;">
+
+            <details style="margin-bottom:6px;">
+                <summary style="cursor:pointer; font-weight:500;">Opis</summary>
+                <div class="text-muted" style="margin-top:6px; line-height:1.4;">
+                    {{ p.description }}
+                </div>
+            </details>
+
+            <details style="margin-bottom:6px;">
+                <summary style="cursor:pointer; font-weight:500;">Karakteristike</summary>
+                <div class="text-muted" style="margin-top:6px; font-size:12px; line-height:1.4;">
+                    {{ p.specs }}
+                </div>
+            </details>
+
+            <details>
+                <summary style="cursor:pointer; font-weight:500;">Dodatne informacije</summary>
+                <div class="text-muted" style="margin-top:6px;">
+                    Težina: {{ p.weight }} kg <br>
+                    {% if p.active %}Aktivno{% else %}Skriveno{% endif %}
+                    {% if p.featured %} • ⭐ Izdvojeno{% endif %}
+                </div>
+            </details>
+
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:10px;">
+            <a href="/admin/edit/{{ p.id }}" class="btn">✏️ Uredi</a>
+            <a href="/admin/delete/{{ p.id }}" class="btn" onclick="return confirm('Jeste li sigurni?')">🗑 Obriši</a>
+        </div>
+
+    </div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

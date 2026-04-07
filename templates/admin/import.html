@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div style="max-width:600px; margin:0 auto;">
+
+    <h1 style="margin-bottom:20px;">Uvoz proizvoda (Excel)</h1>
+
+    <div class="card" style="display:flex; flex-direction:column; gap:16px;">
+
+        <div class="text-muted">
+            Učitaj Excel datoteku za unos ili ažuriranje proizvoda.
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:12px;">
+
+            <div>
+                <label>Odaberi Excel datoteku (.xlsx)</label><br>
+                <input type="file" name="file">
+            </div>
+
+            <button type="submit" class="btn">
+                📥 Uvezi podatke
+            </button>
+
+        </form>
+
+        <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;">
+            <div class="text-muted" style="margin-bottom:6px;">
+                Nemaš pripremljen Excel?
+            </div>
+
+            <a href="/admin/template" class="btn">
+                📄 Preuzmi predložak
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
