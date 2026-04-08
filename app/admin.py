@@ -6,6 +6,12 @@ import pandas as pd
 
 admin = Blueprint("admin", __name__)
 
+from flask import redirect
+
+@admin.route("/")
+def root_redirect():
+    return redirect("/admin")
+
 @admin.route("/admin")
 def dashboard():
     products = Product.query.all()
