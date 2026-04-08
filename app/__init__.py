@@ -15,4 +15,10 @@ def create_app():
     from app.admin import admin
     app.register_blueprint(admin)
 
+    from flask import redirect
+
+    @app.route("/")
+    def home():
+        return redirect("/admin")
+
     return app
